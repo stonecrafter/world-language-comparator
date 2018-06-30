@@ -1,0 +1,4 @@
+@mixin widthAndCenter($width) {
+  width: $width;
+  margin: 0 auto;
+}

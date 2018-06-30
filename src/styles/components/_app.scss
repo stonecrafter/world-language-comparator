@@ -1,0 +1,43 @@
+.app {
+
+  &__title-area {
+    height: 60vh;
+    background-image: url(../images/hero.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  &__title {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    margin: auto;
+    max-width: 85vw;
+    width: 100%;
+  }
+
+  &__translated {
+    @include widthAndCenter(80vw);
+
+    margin-bottom: $l-size;
+  }
+
+  @media only screen and (max-height: $landscape-bkp) {
+    &__title-area {
+      height: 85vh;
+    }
+
+    &__title {
+      top: 40%;
+    }
+  }
+
+  @media only screen and (max-height: $landscape-bkp) and (max-width: $m-phone-bkp) {
+    &__title {
+      top: 35%;
+    }
+  }
+}

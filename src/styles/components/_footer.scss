@@ -1,0 +1,21 @@
+.footer {
+  background-color: $color-primary;
+  height: 100%;
+  padding: $m-size;
+  font-size: $s-size;
+
+  &__items {
+    @include widthAndCenter(90vw);
+
+    display: flex;
+    justify-content: space-between;
+
+    @media only screen and (max-width: $sm-phone-bkp) {
+      flex-direction: column;
+
+      p {
+        margin: .5rem 0;
+      }
+    }
+  }
+}

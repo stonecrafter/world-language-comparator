@@ -1,0 +1,65 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: $m-size;
+}
+
+button {
+  cursor: pointer;
+  background-color: $color-primary-dark;
+  padding: 1rem 1.5rem;
+  color: $color-primary;
+  font-weight: 300;
+
+  &:hover {
+    background-color: $btn-hover-color;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: $btn-focus-color;
+  }
+}
+
+h4 {
+  font-weight: 500;
+}
+
+p {
+  line-height: 1.6;
+  color: initial;
+}
+
+a {
+  color: $color-primary-dark;
+  text-decoration: none;
+
+  &:hover {
+    color: $btn-hover-color;
+  }
+}
+
+input[type=text] {
+  transition: all 0.30s ease-in-out;
+  outline: none;
+  border: 1px solid $color-primary;
+
+  &:focus {
+    box-shadow: 0 0 5px $color-primary;
+    border: 1px solid $color-primary
+  }
+}
+
+
+h1 {
+  @media only screen and (max-width: $m-phone-bkp) {
+    font-size: 2.5rem;
+  }
+}

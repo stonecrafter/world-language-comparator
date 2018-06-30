@@ -1,0 +1,24 @@
+// Colours
+$color-primary: #BAB5F6;
+$color-primary-light: #CFCBF1;
+$color-primary-dark: #4D3664;
+$color-secondary-light: #E1FFCF;
+
+$btn-hover-color: lighten($color-primary-dark, 15%);
+$btn-focus-color: lighten($color-primary-dark, 10%);
+
+// Spacing
+$s-size: 1.2rem;
+$m-size: 1.6rem;
+$l-size: 3.2rem;
+$xl-size: 4.8rem;
+$desktop-breakpoint: 45rem;
+
+$header-height: 6rem;
+
+// Breakpoints
+$sm-phone-bkp: 22.19em;  // 355px
+$m-phone-bkp: 35.56em; // 569px
+
+// Used in height media query
+$landscape-bkp: 34.38em  // 550px

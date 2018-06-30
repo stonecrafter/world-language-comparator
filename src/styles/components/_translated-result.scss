@@ -1,0 +1,12 @@
+.translated-result {
+  padding: 2rem 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $color-primary;
+  }
+
+  &__lang {
+    font-weight: 700;
+    color: $color-primary-dark;
+  }
+}
