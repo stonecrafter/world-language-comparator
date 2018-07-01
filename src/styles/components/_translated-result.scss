@@ -1,9 +1,10 @@
 .translated-result {
-  padding: 2rem 0;
+  padding: 0 2rem 2rem 2rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid $color-primary;
-  }
+  border: .1rem solid $color-primary-light;
+  border-radius: .5rem;
+  // Do not be transparent
+  background-color: white;
 
   &__lang {
     font-weight: 700;

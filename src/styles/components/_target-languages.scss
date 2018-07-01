@@ -1,5 +1,3 @@
 .target-languages {
-  @include widthAndCenter(80vw);
-
-  margin-bottom: $l-size;
+  padding: $l-size 0 $s-size 0;
 }

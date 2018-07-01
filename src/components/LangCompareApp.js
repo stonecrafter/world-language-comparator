@@ -1,4 +1,5 @@
 import React from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { Loader } from 'react-overlay-loader';
 
 import 'react-overlay-loader/styles.css';
@@ -46,6 +47,25 @@ export default class LangCompareApp extends React.Component {
     }));
   }
 
+  /**
+   * Method required by react-beautiful-dnd
+   * https://github.com/atlassian/react-beautiful-dnd#ondragend-required
+   * @param {*} result
+   */
+  onDragEnd = (result) => {
+    // Dropped outside the list, do nothing
+    if (!result.destination) {
+      return;
+    }
+
+    // Reorder items and persist it to state
+    const orderedItems = Array.from(this.state.selectedLangs);
+    const [removed] = orderedItems.splice(result.source.index, 1);
+    orderedItems.splice(result.destination.index, 0, removed);
+
+    this.setState((prevState) => ({ selectedLangs: orderedItems }));
+  }
+
   handleEngQuery = async (query) => {
     if (!this.state.loading) {
       this.setState((prevState) => ({ loading: true }));
@@ -69,9 +89,11 @@ export default class LangCompareApp extends React.Component {
             loading={this.state.loading}
           />
         </div>
-        <TargetLanguages
-          selectedLangs={this.state.selectedLangs}
-        />
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <TargetLanguages
+            selectedLangs={this.state.selectedLangs}
+          />
+        </DragDropContext>
         <Footer />
       </div>
     );
