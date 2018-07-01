@@ -29,6 +29,7 @@
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-modal": "3.4.4",
+    "react-overlay-loader": "^0.0.3",
     "resolve-url-loader": "^2.3.0",
     "rimraf": "^2.6.2",
     "sass-loader": "6.0.6",

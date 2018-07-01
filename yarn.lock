@@ -5126,6 +5126,10 @@ react-modal@3.4.4:
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
 
+react-overlay-loader@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-overlay-loader/-/react-overlay-loader-0.0.3.tgz#1b46441aad2cb40a261d905c9c0ad6b5da999103"
+
 react@16.0.0:
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"

@@ -19,12 +19,6 @@
     width: 100%;
   }
 
-  &__translated {
-    @include widthAndCenter(80vw);
-
-    margin-bottom: $l-size;
-  }
-
   @media only screen and (max-height: $landscape-bkp) {
     &__title-area {
       height: 85vh;
@@ -38,6 +32,19 @@
   @media only screen and (max-height: $landscape-bkp) and (max-width: $m-phone-bkp) {
     &__title {
       top: 35%;
+    }
+  }
+
+  // Full page loading spinner customisation
+  .react-overlay-loader-spinner {
+    &:before {
+      border-top-color: $color-primary-dark;
+    }
+
+    & + span {
+      // Override the library's default colour
+      color: $color-primary-dark !important;
+      font-weight: 700;
     }
   }
 }
