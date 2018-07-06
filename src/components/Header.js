@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import FaClose from 'react-icons/lib/fa/close';
 
 Modal.setAppElement('#LangCompareApp')
 
@@ -44,7 +45,9 @@ export default class Header extends React.Component {
           shouldCloseOnOverlayClick={true}
           className="modal"
         >
-          <div className="modal__close clickable" onClick={this.handleCloseModal}>X</div>
+          <div className="modal__close">
+            <button className="btn-close" onClick={this.handleCloseModal}><FaClose /></button>
+          </div>
           <h1 className="modal__title">About</h1>
           <div className="modal__body">
             <p>An interactive illustration of the similarites and differences between the five major languages of the Nordic region.</p>

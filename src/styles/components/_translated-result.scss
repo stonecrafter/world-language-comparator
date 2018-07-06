@@ -6,8 +6,24 @@
   // Do not be transparent
   background-color: white;
 
+  min-height: 7.8rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    .btn-close {
+      align-self: flex-start;
+      margin-top: 1.6rem;
+    }
+  }
+
   &__lang {
     font-weight: 700;
     color: $color-primary-dark;
+  }
+
+  &__translated {
+    display: inline-block;
   }
 }

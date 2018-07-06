@@ -5,3 +5,14 @@
 .bdr-radius-sm {
   border-radius: .2rem;
 }
+
+button.btn-close {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: $color-primary-dark;
+
+  &:hover {
+    color: $btn-hover-color;
+  }
+}

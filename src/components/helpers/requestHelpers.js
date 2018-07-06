@@ -48,5 +48,11 @@ const _getTransForLang = async (textToTrans, lang) => {
 const _getSupportedLangs = async () => {
   const requestUrl = `https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=${YANDEX_API_KEY}&ui=en`
   const { data } = await axios.get(requestUrl);
-  return data.langs;
+
+  // Transform to array of objects
+  const langArray = [];
+  Object.entries(data.langs).forEach(
+    ([key, value]) => langArray.push({ key, name: value, isDisabled: false })
+  );
+  return langArray;
 }

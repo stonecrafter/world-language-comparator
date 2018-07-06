@@ -1,0 +1,94 @@
+.target-lang-selector {
+  @include widthAndCenter(80vw);
+  margin-bottom: 2rem;
+
+  // Move this into its own file later if used elsewhere
+  .searchable-select {
+    &__control {
+      cursor: pointer;
+      border-color: $color-primary-dark;
+      transition: all 0.30s ease-in-out;
+
+      &-is-focused {
+        box-shadow: 0 0 5px $color-primary-dark;
+      }
+
+      &:hover {
+        border-color: $btn-hover-color;
+
+        // How annoying. Find a better way to do this
+        .searchable-select__placeholder {
+          color: $btn-hover-color;
+        }
+    
+        .searchable-select__indicator-separator {
+          background-color: $btn-hover-color;
+        }
+    
+        .searchable-select__dropdown-indicator {
+          color: $btn-hover-color;
+        }
+      }
+    }
+
+    &__placeholder {
+      color: $color-primary-dark;
+    }
+
+    &__indicator-separator {
+      background-color: $color-primary-dark;
+    }
+
+    &__dropdown-indicator {
+      color: $color-primary-dark;
+    }
+
+    &__value-container {
+      & > * {
+        width: 100%;
+      }
+    }
+
+    &__input {
+      width: 100%;
+      cursor: auto;
+
+      input {
+        box-shadow: none;
+        border: none;
+        font-family: inherit;
+        // Libraries are annoying... don't know why I need to do this, but it works
+        width: 100% !important;
+        color: $color-primary-dark !important;
+      }
+    }
+
+    &__menu-list {
+      box-shadow: 0 0 5px $color-primary-light;
+      color: $color-primary-dark;
+      max-height: 25vh;
+    }
+
+    &__menu-notice {
+      &--no-options {
+        color: $color-primary-light;
+      }
+    }
+  
+    &__option {
+      &:active {
+        background-color: $color-primary;
+        cursor: pointer;
+      }
+
+      &--is-disabled {
+        color: $color-primary-light;
+      }
+  
+      &--is-focused {
+        background-color: $color-primary;
+        cursor: pointer;
+      }
+    }
+  }
+}

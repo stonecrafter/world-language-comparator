@@ -1,6 +1,7 @@
 import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Loader } from 'react-overlay-loader';
+import _ from 'lodash';
 
 import 'react-overlay-loader/styles.css';
 
@@ -14,37 +15,13 @@ export default class LangCompareApp extends React.Component {
   state = {
     loading: true,
     availableLangs: [],
-    selectedLangs: [
-      {
-        key: 'no',
-        name: 'Norwegian'
-      },
-      {
-        key: 'da',
-        name: 'Danish'
-      },
-      {
-        key: 'sv',
-        name: 'Swedish'
-      },
-      {
-        key: 'is',
-        name: 'Icelandic'
-      },
-      {
-        key: 'fi',
-        name: 'Finnish'
-      }
-    ]
+    selectedLangs: []
   }
 
   async componentDidMount() {
     // Get list of available languages
     const availableLangs = await getSupportedLangs();
-    this.setState((prevState) => ({
-      availableLangs,
-      loading: false
-    }));
+    this.setState({ availableLangs, loading: false });
   }
 
   /**
@@ -63,17 +40,49 @@ export default class LangCompareApp extends React.Component {
     const [removed] = orderedItems.splice(result.source.index, 1);
     orderedItems.splice(result.destination.index, 0, removed);
 
-    this.setState((prevState) => ({ selectedLangs: orderedItems }));
+    this.setState({ selectedLangs: orderedItems });
   }
 
+  /**
+   * Handle clicking the 'translate' button
+   */
   handleEngQuery = async (query) => {
     if (!this.state.loading) {
       this.setState((prevState) => ({ loading: true }));
       const res = await getTranslations(query, this.state.selectedLangs);
+      this.setState({ loading: false, selectedLangs: res });
+    }
+  }
+
+  /**
+   * Handle user adding a target language
+   * Add the language to the selected list, and disable it in the available list
+   */
+  handleAddLang = (newLang) => {
+    if (newLang && !_.isEmpty(newLang)) {
+      const availableLangsCopy = [...this.state.availableLangs];
+      const index = _.findIndex(availableLangsCopy, { key: newLang.key });
+      availableLangsCopy[index].isDisabled = true;
       this.setState((prevState) => ({
-        loading: false,
-        selectedLangs: res
+        selectedLangs: [newLang, ...prevState.selectedLangs],
+        availableLangs: availableLangsCopy
       }));
+    }
+  }
+
+  /**
+   * Handle user removing a target language
+   * Remove the language from the selected list and add it back to the available list
+   */
+  handleRemoveLang = (lang) => {
+    if (lang) {
+      const selectedLangsCopy = [...this.state.selectedLangs];
+      selectedLangsCopy.splice(selectedLangsCopy.indexOf(lang), 1);
+
+      const availableLangsCopy = [...this.state.availableLangs];
+      const index = _.findIndex(availableLangsCopy, { key: lang.key });
+      availableLangsCopy[index].isDisabled = false;
+      this.setState({ selectedLangs: selectedLangsCopy, availableLangs: availableLangsCopy });
     }
   }
 
@@ -92,6 +101,9 @@ export default class LangCompareApp extends React.Component {
         <DragDropContext onDragEnd={this.onDragEnd}>
           <TargetLanguages
             selectedLangs={this.state.selectedLangs}
+            availableLangs={this.state.availableLangs}
+            handleAddLang={this.handleAddLang}
+            handleRemoveLang={this.handleRemoveLang}
           />
         </DragDropContext>
         <Footer />
