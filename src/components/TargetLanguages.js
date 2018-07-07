@@ -1,5 +1,6 @@
 import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { CSSTransitionGroup } from 'react-transition-group'
 
 import TranslatedResult from './TranslatedResult';
 import TargetLangSelector from './TargetLangSelector';
@@ -37,27 +38,32 @@ export default class TargetLanguages extends React.Component {
               availableLangs={this.props.availableLangs}
               handleAddLang={this.props.handleAddLang}
             />
-            {this.props.selectedLangs.map((lang, index) => (
-              <Draggable key={lang.key} draggableId={lang.key} index={index} isDragDisabled={!this.state.dragEnabled}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={this.getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
-                  >
-                    <TranslatedResult
-                      langObject={lang}
-                      handleRemoveLang={this.props.handleRemoveLang}
-                      toggleDrag={this.toggleDrag}
-                    />
-                  </div>
-                )}
-              </Draggable>
-            ))}
+            <CSSTransitionGroup
+              transitionName="target-languages--change"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={500}>
+              {this.props.selectedLangs.map((lang, index) => (
+                <Draggable key={lang.key} draggableId={lang.key} index={index} isDragDisabled={!this.state.dragEnabled}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={this.getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
+                      <TranslatedResult
+                        langObject={lang}
+                        handleRemoveLang={this.props.handleRemoveLang}
+                        toggleDrag={this.toggleDrag}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+            </CSSTransitionGroup>
           </div>
         )}
       </Droppable>

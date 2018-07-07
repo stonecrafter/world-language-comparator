@@ -1,4 +1,30 @@
 .target-languages {
   flex: 1;
   padding: $l-size 0 $s-size 0;
+
+  &--change {
+    &-enter {
+      opacity: 0.01;
+      transform: scaleY(0);
+      transform-origin: top;
+
+      &#{&}-active {
+        opacity: 1;
+        transform: scaleY(1);
+        transition: all 500ms ease-out;
+      }
+    }
+
+    &-leave {
+      opacity: 1;
+      transform: scaleY(1);
+      transform-origin: top;
+
+      &#{&}-active {
+        opacity: 0.01;
+        transform: scaleY(0);
+        transition: all 500ms ease-in;
+      }
+    }
+  }
 }
