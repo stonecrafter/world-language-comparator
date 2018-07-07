@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import 'react-overlay-loader/styles.css';
 
+import CONSTANTS from './helpers/constants';
 import Header from './Header';
 import Footer from './Footer';
 import EnglishInput from './EnglishInput';
@@ -21,7 +22,30 @@ export default class LangCompareApp extends React.Component {
   async componentDidMount() {
     // Get list of available languages
     const availableLangs = await getSupportedLangs();
+
+    // Set the initial state
     this.setState({ availableLangs, loading: false });
+
+    // Initialise selected languages from local storage
+    // A little awkward, should this be done before the above
+    // to avoid multiple set state calls? But then we can't reuse the handleAddLang method
+    this.selectLangsFromLocalStorage();
+  }
+
+  /**
+   * Get the list of selected languages from local storage
+   * and add them to the list
+   */
+  selectLangsFromLocalStorage = (availableLangs) => {
+    // Since items are added to the front of the array, in order to preserve order
+    // for the user we have to reverse the stored array, and add the last item first
+    // (then it will show up at the bottom of the list like the user expects)
+    const storedKeys = _.reverse(JSON.parse(localStorage.getItem(CONSTANTS.TARGET_LANG_LOCAL_STORAGE_KEY)));
+    for (const key of storedKeys) {
+      // Find the display name of the selected language
+      const { name } = _.find(this.state.availableLangs, { key });
+      this.handleAddLang({ key, name, value: '' });
+    }
   }
 
   /**
@@ -58,15 +82,18 @@ export default class LangCompareApp extends React.Component {
    * Handle user adding a target language
    * Add the language to the selected list, and disable it in the available list
    */
-  handleAddLang = (newLang) => {
+  handleAddLang = async (newLang) => {
     if (newLang && !_.isEmpty(newLang)) {
       const availableLangsCopy = [...this.state.availableLangs];
       const index = _.findIndex(availableLangsCopy, { key: newLang.key });
       availableLangsCopy[index].isDisabled = true;
-      this.setState((prevState) => ({
+      await this.setState((prevState) => ({
         selectedLangs: [newLang, ...prevState.selectedLangs],
         availableLangs: availableLangsCopy
       }));
+
+      // Add new language to local storage
+      this.updateTargetLangLocalStorage();
     }
   }
 
@@ -74,7 +101,7 @@ export default class LangCompareApp extends React.Component {
    * Handle user removing a target language
    * Remove the language from the selected list and add it back to the available list
    */
-  handleRemoveLang = (lang) => {
+  handleRemoveLang = async (lang) => {
     if (lang) {
       const selectedLangsCopy = [...this.state.selectedLangs];
       selectedLangsCopy.splice(selectedLangsCopy.indexOf(lang), 1);
@@ -82,8 +109,19 @@ export default class LangCompareApp extends React.Component {
       const availableLangsCopy = [...this.state.availableLangs];
       const index = _.findIndex(availableLangsCopy, { key: lang.key });
       availableLangsCopy[index].isDisabled = false;
-      this.setState({ selectedLangs: selectedLangsCopy, availableLangs: availableLangsCopy });
+      await this.setState({ selectedLangs: selectedLangsCopy, availableLangs: availableLangsCopy });
+
+      // Remove the language from local storage
+      this.updateTargetLangLocalStorage();
     }
+  }
+
+  /**
+   * Update target language list local storage based on current state
+   */
+  updateTargetLangLocalStorage = () => {
+    const langKeyList = JSON.stringify(_.map(this.state.selectedLangs, 'key'));
+    localStorage.setItem(CONSTANTS.TARGET_LANG_LOCAL_STORAGE_KEY, langKeyList);
   }
 
   render() {
