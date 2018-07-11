@@ -28,7 +28,7 @@ export default class Header extends React.Component {
     return (
       <header className="header">
         <div className="header__items">
-          <h4 className="header__title">Nordic Language Comparator</h4>
+          <h4 className="header__title">World Language Comparator</h4>
           <button
             ref={c => this.btn = c}
             className="header__about"
@@ -50,11 +50,16 @@ export default class Header extends React.Component {
           </div>
           <h1 className="modal__title">About</h1>
           <div className="modal__body">
-            <p>An interactive illustration of the similarites and differences between the five major languages of the Nordic region.</p>
+            <p>
+              Learning multiple languages at once? Or just curious about how similar or different certain languages are?
+              Tired of switching between tabs on machine translation service sites? Here, you can translate a piece of text
+              to several target languages in one go, as well as drag and drop the order of language blocks for ease of comparison.
+            </p>
 
             <p>Automatic translations are powered by <a href="http://translate.yandex.com/">Yandex.Translate</a>.
-            There are more than five officially recognised languages, but they are not supported by the translation service.
-            Click <a href="https://www.norden.org/en/fakta-om-norden-1/nordic-dictionaries">here</a> to learn more.</p>
+            All languages supported by the translation service are available here.</p>
+
+            <p>This concept grew out of the Nordic Language Comparator, <a href="https://stonecrafter.github.io/nordic-language-comparator/">which you can find here.</a></p>
           </div>
         </Modal>
       </header>

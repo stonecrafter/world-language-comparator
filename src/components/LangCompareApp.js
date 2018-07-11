@@ -41,10 +41,12 @@ export default class LangCompareApp extends React.Component {
     // for the user we have to reverse the stored array, and add the last item first
     // (then it will show up at the bottom of the list like the user expects)
     const storedKeys = _.reverse(JSON.parse(localStorage.getItem(CONSTANTS.TARGET_LANG_LOCAL_STORAGE_KEY)));
-    for (const key of storedKeys) {
-      // Find the display name of the selected language
-      const { name } = _.find(this.state.availableLangs, { key });
-      this.handleAddLang({ key, name, value: '' });
+    if (storedKeys && storedKeys.length > 0) {
+      for (const key of storedKeys) {
+        // Find the display name of the selected language
+        const { name } = _.find(this.state.availableLangs, { key });
+        this.handleAddLang({ key, name, value: '' });
+      }
     }
   }
 
@@ -130,7 +132,7 @@ export default class LangCompareApp extends React.Component {
         <Loader fullPage loading={this.state.loading} text={'Just a minute!'} />
         <Header />
         <div className="app__title-area">
-          <h1 className="app__title">Compare Nordic Languages</h1>
+          <h1 className="app__title">Compare World Languages</h1>
           <EnglishInput
             handleEngQuery={this.handleEngQuery}
             loading={this.state.loading}
