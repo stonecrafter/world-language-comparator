@@ -8,7 +8,7 @@ import 'react-overlay-loader/styles.css';
 import CONSTANTS from './helpers/constants';
 import Header from './Header';
 import Footer from './Footer';
-import EnglishInput from './EnglishInput';
+import OriginalInput from './OriginalInput';
 import TargetLanguages from './TargetLanguages';
 import { getTranslations, getSupportedLangs } from './helpers/requestHelpers';
 
@@ -16,7 +16,11 @@ export default class LangCompareApp extends React.Component {
   state = {
     loading: true,
     availableLangs: [],
-    selectedLangs: []
+    selectedLangs: [],
+    originalLang: {
+      key: '',
+      name: ''
+    }
   }
 
   async componentDidMount() {
@@ -33,8 +37,7 @@ export default class LangCompareApp extends React.Component {
   }
 
   /**
-   * Get the list of selected languages from local storage
-   * and add them to the list
+   * Get language settings from local storage
    */
   selectLangsFromLocalStorage = (availableLangs) => {
     // Since items are added to the front of the array, in order to preserve order
@@ -48,6 +51,11 @@ export default class LangCompareApp extends React.Component {
         this.handleAddLang({ key, name, value: '' });
       }
     }
+
+    // Set the original language, default to English if not found
+    const originalLangKey = localStorage.getItem(CONSTANTS.ORIGINAL_LANG_LOCAL_STORAGE_KEY) || 'en';
+    const originalLang = _.find(this.state.availableLangs, { key: originalLangKey });
+    this.changeOriginalLang(originalLang)
   }
 
   /**
@@ -72,10 +80,10 @@ export default class LangCompareApp extends React.Component {
   /**
    * Handle clicking the 'translate' button
    */
-  handleEngQuery = async (query) => {
+  handleOriginalQuery = async (query) => {
     if (!this.state.loading) {
       this.setState((prevState) => ({ loading: true }));
-      const res = await getTranslations(query, this.state.selectedLangs);
+      const res = await getTranslations(query, this.state.originalLang, this.state.selectedLangs);
       this.setState({ loading: false, selectedLangs: res });
     }
   }
@@ -119,6 +127,31 @@ export default class LangCompareApp extends React.Component {
   }
 
   /**
+   * Change the selected original language
+   */
+  changeOriginalLang = (originalLang) => {
+    // The original language that was previously selected should be made available for selection again
+    // if it exists (it will not exist upon first time app load)
+    // and the language being selected at present should be made disabled
+    const availableLangsCopy = [...this.state.availableLangs];
+    const newLangIndex = _.findIndex(availableLangsCopy, { key: originalLang.key });
+    availableLangsCopy[newLangIndex].isDisabled = true;
+
+    const prevLangIndex = _.findIndex(availableLangsCopy, { key: this.state.originalLang.key });
+    if (prevLangIndex > -1) {
+      availableLangsCopy[prevLangIndex].isDisabled = false;
+    }
+
+    this.setState((prevState) => ({
+      availableLangs: availableLangsCopy,
+      originalLang
+    }));
+
+    // Save original language selection to local storage
+    localStorage.setItem(CONSTANTS.ORIGINAL_LANG_LOCAL_STORAGE_KEY, originalLang.key);
+  }
+
+  /**
    * Update target language list local storage based on current state
    */
   updateTargetLangLocalStorage = () => {
@@ -133,9 +166,12 @@ export default class LangCompareApp extends React.Component {
         <Header />
         <div className="app__title-area">
           <h1 className="app__title">Compare World Languages</h1>
-          <EnglishInput
-            handleEngQuery={this.handleEngQuery}
+          <OriginalInput
+            handleOriginalQuery={this.handleOriginalQuery}
             loading={this.state.loading}
+            availableLangs={this.state.availableLangs}
+            changeOriginalLang={this.changeOriginalLang}
+            originalLang={this.state.originalLang}
           />
         </div>
         <DragDropContext onDragEnd={this.onDragEnd}>
