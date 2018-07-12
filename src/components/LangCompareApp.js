@@ -130,25 +130,27 @@ export default class LangCompareApp extends React.Component {
    * Change the selected original language
    */
   changeOriginalLang = (originalLang) => {
-    // The original language that was previously selected should be made available for selection again
-    // if it exists (it will not exist upon first time app load)
-    // and the language being selected at present should be made disabled
-    const availableLangsCopy = [...this.state.availableLangs];
-    const newLangIndex = _.findIndex(availableLangsCopy, { key: originalLang.key });
-    availableLangsCopy[newLangIndex].isDisabled = true;
+    if (originalLang && !_.isEmpty(originalLang)) {
+      // The original language that was previously selected should be made available for selection again
+      // if it exists (it will not exist upon first time app load)
+      // and the language being selected at present should be made disabled
+      const availableLangsCopy = [...this.state.availableLangs];
+      const newLangIndex = _.findIndex(availableLangsCopy, { key: originalLang.key });
+      availableLangsCopy[newLangIndex].isDisabled = true;
 
-    const prevLangIndex = _.findIndex(availableLangsCopy, { key: this.state.originalLang.key });
-    if (prevLangIndex > -1) {
-      availableLangsCopy[prevLangIndex].isDisabled = false;
+      const prevLangIndex = _.findIndex(availableLangsCopy, { key: this.state.originalLang.key });
+      if (prevLangIndex > -1) {
+        availableLangsCopy[prevLangIndex].isDisabled = false;
+      }
+
+      this.setState((prevState) => ({
+        availableLangs: availableLangsCopy,
+        originalLang
+      }));
+
+      // Save original language selection to local storage
+      localStorage.setItem(CONSTANTS.ORIGINAL_LANG_LOCAL_STORAGE_KEY, originalLang.key);
     }
-
-    this.setState((prevState) => ({
-      availableLangs: availableLangsCopy,
-      originalLang
-    }));
-
-    // Save original language selection to local storage
-    localStorage.setItem(CONSTANTS.ORIGINAL_LANG_LOCAL_STORAGE_KEY, originalLang.key);
   }
 
   /**

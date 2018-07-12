@@ -51,7 +51,7 @@ export default class OriginalInput extends React.Component {
             isOptionSelected={this.isOptionSelected}
           />
           <input
-            className="original-input__input"
+            className="original-input__input no-left-border"
             type="text"
             name="originalQuery"
             placeholder={`Enter ${originalLang.name} text`}
