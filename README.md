@@ -1,18 +1,15 @@
-# nordic-language-comparator
+# world-language-comparator
 
-https://stonecrafter.github.io/nordic-language-comparator/
+https://stonecrafter.github.io/world-language-comparator/
 
-Enter some English text to see translations in 5 Nordic languages side by side.
+Translate from any one language to any number of other languages, in one go, and on one screen. Built off of [this](https://github.com/stonecrafter/nordic-language-comparator/), but with more features and general applicability.
 
-This is a small spin-off of a larger project that I have in mind.
+Yandex was chosen as the translation API because, Google does not have a free tier, and Bing does not support nearly as many languages.
 
-#### Future project plans
-1. Ability to select any from-language and 0 < x <= 10 number of to-languages
-2. Drag and drop reordering of to-languages
-3. Save to-language selection in session storage so they are preserved for the user on page reload
-4. Loading spinner or indicator while translations are returning from API
-5. Temporary sharable link to a particular set of translated results (maybe)
-6. etc
+#### TODOs
+1. Error handling and message display
+2. Unit tests
+3. Add backend server (for local hosting of fonts, etc)
 
 #### 🐛s
 To report a functional or browser-specific layout bug, open an issue here or send me [an email](mailto:kirien.eyma@gmail.com).
