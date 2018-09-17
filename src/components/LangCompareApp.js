@@ -40,16 +40,21 @@ export default class LangCompareApp extends React.Component {
    * Get language settings from local storage
    */
   selectLangsFromLocalStorage = (availableLangs) => {
+    // If there are no saved language keys in session, initialise with some default ones
+    let defaultLangs = CONSTANTS.DEFAULT_LANG_KEYS;
+
     // Since items are added to the front of the array, in order to preserve order
     // for the user we have to reverse the stored array, and add the last item first
     // (then it will show up at the bottom of the list like the user expects)
     const storedKeys = _.reverse(JSON.parse(localStorage.getItem(CONSTANTS.TARGET_LANG_LOCAL_STORAGE_KEY)));
     if (storedKeys && storedKeys.length > 0) {
-      for (const key of storedKeys) {
-        // Find the display name of the selected language
-        const { name } = _.find(this.state.availableLangs, { key });
-        this.handleAddLang({ key, name, value: '' });
-      }
+      defaultLangs = storedKeys;
+    }
+
+    for (const key of defaultLangs) {
+      // Find the display name of the selected language
+      const { name } = _.find(this.state.availableLangs, { key });
+      this.handleAddLang({ key, name, value: '' });
     }
 
     // Set the original language, default to English if not found
