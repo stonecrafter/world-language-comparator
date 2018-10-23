@@ -13,18 +13,33 @@ const OriginalInputSelectedRenderer = ({ ...props }) => (
 
 export default class OriginalInput extends React.Component {
   state = {
-    error: undefined
+    error: undefined,
+    inputValue: ''
   }
 
+  /**
+   * Handler for when the submit button is pressed
+   * Prevent button from default submitting the page
+   * Grab the value to translate from state
+   */
   handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Is there a better way to retrieve the value?
-    const query = e.target.elements.originalQuery.value.trim();
 
+    const query = this.state.inputValue;
+    // Only submit if the input value is not an empty string
     if (query) {
       const error = await this.props.handleOriginalQuery(query);
       this.setState(() => ({ error }));
     }
+  }
+
+  /**
+   * Update state when input value is being changed
+   */
+  onInputValueChange = (e) => {
+    this.setState({
+      inputValue: e.target.value
+    });
   }
 
   /**
@@ -56,6 +71,7 @@ export default class OriginalInput extends React.Component {
             name="originalQuery"
             placeholder={`Enter ${originalLang.name} text`}
             autoComplete="off"
+            onChange={this.onInputValueChange}
           />
         </div>
         <button
