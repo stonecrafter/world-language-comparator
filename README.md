@@ -10,6 +10,7 @@ Yandex was chosen as the translation API because, Google does not have a free ti
 1. Error handling and message display
 2. Unit tests
 3. Add backend server (for local hosting of fonts, etc)
+4. Better way to deploy, not to docs folder / gh-pages? (Do after #3) ... these 2 are probably good ideas if I want to advertise this to the public at all eventually.
 
 #### 🐛s
-To report a functional or browser-specific layout bug, open an issue here or send me [an email](mailto:kirien.eyma@gmail.com).
+To report a functional or browser-specific layout bug, open an issue here or contact me through [my website](stoneages.me).
